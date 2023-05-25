@@ -7,7 +7,7 @@ import {ChakraProvider, extendTheme} from "@chakra-ui/react";
 import Layout from "./Components/Layout";
 import HomePage from "./Pages/Home"
 import TagsPage from "./Pages/Tags"
-
+import ArchivePage from "./Pages/Archive"
 const config = {
     initialColorMode: 'system',
     useSystemColorMode: false
@@ -22,6 +22,7 @@ function RouterMachine() {
             <Routes location={location}>
                 <Route path="/" element={<HomePage/>}/>
                 <Route path="/analysis" element={<TagsPage/>}/>
+                <Route path="/search" element={<ArchivePage/>}/>
             </Routes>
         </Layout>
 
