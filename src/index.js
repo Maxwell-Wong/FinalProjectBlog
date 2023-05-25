@@ -6,6 +6,7 @@ import {BrowserRouter, Route, Routes, useLocation} from "react-router-dom";
 import {ChakraProvider, extendTheme} from "@chakra-ui/react";
 import Layout from "./Components/Layout";
 import HomePage from "./Pages/Home"
+import TagsPage from "./Pages/Tags"
 
 const config = {
     initialColorMode: 'system',
@@ -20,7 +21,7 @@ function RouterMachine() {
         <Layout title="A platform for meta analysis" >
             <Routes location={location}>
                 <Route path="/" element={<HomePage/>}/>
-
+                <Route path="/analysis" element={<TagsPage/>}/>
             </Routes>
         </Layout>
 
