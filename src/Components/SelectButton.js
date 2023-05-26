@@ -17,6 +17,8 @@ class PageSelect extends React.Component {
                 <Box position='relative' left='30px' w='70px' h='30px' >
                 <center><PrevButton
                     isFirst={prevFlag}
+                    curIndex={this.props.curIndex}
+                    selectPage = {this.props.selectPage}
                 />
                 </center>
                 </Box>
@@ -25,12 +27,15 @@ class PageSelect extends React.Component {
                 <PageList
                     pageNum={this.props.allIndex}
                     curIndex={this.props.curIndex}
+                    selectPage = {this.props.selectPage}
                 />
                 </Box>
                 <Spacer />
                 <Box position='relative' right='30px' w='70px' h='30px' >
                 <center><NextButton
                     isLast={nextFlag}
+                    curIndex={this.props.curIndex}
+                    selectPage = {this.props.selectPage}
                 /></center>
                 </Box>
             </Flex>
@@ -39,6 +44,9 @@ class PageSelect extends React.Component {
 }
 
 class PrevButton extends React.Component {
+    SubPage = ()=>{
+        this.props.selectPage(this.props.curIndex-1);
+    }
     render() {
         if(this.props.isFirst) {
             return(
@@ -46,7 +54,7 @@ class PrevButton extends React.Component {
             );
         }else {
             return(
-                <Button  borderRadius='15%'>
+                <Button  borderRadius='15%' onClick={this.SubPage}>
                     Prev
                 </Button>
             );
@@ -55,6 +63,9 @@ class PrevButton extends React.Component {
 }
 
 class NextButton extends React.Component {
+    AddPage = ()=>{
+        this.props.selectPage(this.props.curIndex+1);
+    }
     render() {
         if(this.props.isLast) {
             return(
@@ -62,7 +73,7 @@ class NextButton extends React.Component {
             );
         }else {
             return(
-                <Button  borderRadius='15%'>
+                <Button  borderRadius='15%' onClick={this.AddPage}>
                     Next
                 </Button>
             );
@@ -70,37 +81,41 @@ class NextButton extends React.Component {
     }
 }
 class PageList extends React.Component {
+    ChangePage = (event,index)=>{
+        this.props.selectPage(index);
+    }
     render() {
         let componentList = []
         //左边是否需要省略号
-        if(this.props.curIndex-3>0) {
+        if(this.props.curIndex-2>1) {
             componentList.push(<Button variant="unstyled">...</Button>);
         }
         //添加标号
-        for(let i = this.props.curIndex-3; i<this.props.curIndex; i++) {
+        for(let i = this.props.curIndex-2; i<this.props.curIndex; i++) {
             if(i>0) {
                 componentList.push(
-                    <Button w='70px' h='30px'>
+                    <Button w='70px' h='30px' onClick={(event)=>this.ChangePage(event,i)}>
                         <center>{i}</center>
                     </Button>)
             }
         }
         //添加当前标号
         componentList.push(
-            <Button w='70px' h='30px' bg='gray.300'>
+            <Button w='70px' h='30px' bg='gray.300' >
                 <center>{this.props.curIndex}</center>
             </Button>)
+        let curLen = componentList.length;
         //添加标号
-        for(let i = this.props.curIndex+1; i<this.props.pageNum && i<this.props.curIndex+4 ; i++) {
+        for(let i = this.props.curIndex+1; i<=this.props.pageNum && i<=this.props.curIndex+6-curLen ; i++) {
             if(i>=0) {
                 componentList.push(
-                    <Button w='70px' h='30px'>
+                    <Button w='70px' h='30px' onClick={(event)=>this.ChangePage(event,i)}>
                         <center>{i}</center>
                     </Button>)
             }
         }
         //右边是否需要省略号
-        if(this.props.curIndex+3 < this.props.pageNum) {
+        if(this.props.curIndex+6-curLen < this.props.pageNum) {
             componentList.push(<Button variant="unstyled"><center>...</center></Button>);
         }
         return (

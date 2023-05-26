@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import EventList from '../Components/event';
 import PageSelect from '../Components/SelectButton';
 import { 
@@ -12,224 +12,390 @@ class ArchivePage extends React.Component {
                 year:'2023',
                 date:'05-02',
                 name:'ROS从入门到入土',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2023',
                 date:'05-03',
                 name:'C++从出土到下葬',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2022',
                 date:'05-04',
                 name:'python从入门到放弃',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2022',
                 date:'05-05',
                 name:'React从开始到放弃',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2022',
                 date:'05-06',
                 name:'HappyBirthday',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2022',
                 date:'05-07',
                 name:'HappyBirthday',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2023',
                 date:'05-02',
                 name:'ROS从入门到入土',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2023',
                 date:'05-03',
                 name:'C++从出土到下葬',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2022',
                 date:'05-04',
                 name:'python从入门到放弃',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2022',
                 date:'05-05',
                 name:'React从开始到放弃',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2022',
                 date:'05-06',
                 name:'HappyBirthday',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2022',
                 date:'05-07',
                 name:'HappyBirthday',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2023',
                 date:'05-02',
                 name:'ROS从入门到入土',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2023',
                 date:'05-03',
                 name:'C++从出土到下葬',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2022',
                 date:'05-04',
                 name:'python从入门到放弃',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2022',
                 date:'05-05',
                 name:'React从开始到放弃',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2022',
                 date:'05-06',
                 name:'HappyBirthday',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2022',
                 date:'05-07',
                 name:'HappyBirthday',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2023',
                 date:'05-02',
                 name:'ROS从入门到入土',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2023',
                 date:'05-03',
                 name:'C++从出土到下葬',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2022',
                 date:'05-04',
                 name:'python从入门到放弃',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2022',
                 date:'05-05',
                 name:'React从开始到放弃',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2022',
                 date:'05-06',
                 name:'HappyBirthday',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2022',
                 date:'05-07',
                 name:'HappyBirthday',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2023',
                 date:'05-02',
                 name:'ROS从入门到入土',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2023',
                 date:'05-03',
                 name:'C++从出土到下葬',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2022',
                 date:'05-04',
                 name:'python从入门到放弃',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2022',
                 date:'05-05',
                 name:'React从开始到放弃',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2022',
                 date:'05-06',
                 name:'HappyBirthday',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2022',
                 date:'05-07',
                 name:'HappyBirthday',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2023',
                 date:'05-02',
                 name:'ROS从入门到入土',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2023',
                 date:'05-03',
                 name:'C++从出土到下葬',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2022',
                 date:'05-04',
                 name:'python从入门到放弃',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2022',
                 date:'05-05',
                 name:'React从开始到放弃',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2022',
                 date:'05-06',
                 name:'HappyBirthday',
-                category:'essay'
+                category:'essay',
+                url:'#',
             },
             {
                 year:'2022',
                 date:'05-07',
                 name:'HappyBirthday',
-                category:'essay'
+                category:'essay',
+                url:'#',
+            },
+            {
+                year:'2023',
+                date:'05-02',
+                name:'ROS从入门到入土',
+                category:'essay',
+                url:'#',
+            },
+            {
+                year:'2023',
+                date:'05-03',
+                name:'C++从出土到下葬',
+                category:'essay',
+                url:'#',
+            },
+            {
+                year:'2022',
+                date:'05-04',
+                name:'python从入门到放弃',
+                category:'essay',
+                url:'#',
+            },
+            {
+                year:'2022',
+                date:'05-05',
+                name:'React从开始到放弃',
+                category:'essay',
+                url:'#',
+            },
+            {
+                year:'2022',
+                date:'05-06',
+                name:'HappyBirthday',
+                category:'essay',
+                url:'#',
+            },
+            {
+                year:'2022',
+                date:'05-07',
+                name:'HappyBirthday',
+                category:'essay',
+                url:'#',
+            },
+            {
+                year:'2023',
+                date:'05-02',
+                name:'ROS从入门到入土',
+                category:'essay',
+                url:'#',
+            },
+            {
+                year:'2023',
+                date:'05-03',
+                name:'C++从出土到下葬',
+                category:'essay',
+                url:'#',
+            },
+            {
+                year:'2022',
+                date:'05-04',
+                name:'python从入门到放弃',
+                category:'essay',
+                url:'#',
+            },
+            {
+                year:'2022',
+                date:'05-05',
+                name:'React从开始到放弃',
+                category:'essay',
+                url:'#',
+            },
+            {
+                year:'2022',
+                date:'05-06',
+                name:'HappyBirthday',
+                category:'essay',
+                url:'#',
+            },
+            {
+                year:'2022',
+                date:'05-07',
+                name:'HappyBirthday',
+                category:'essay',
+                url:'#',
+            },
+            {
+                year:'2023',
+                date:'05-02',
+                name:'ROS从入门到入土',
+                category:'essay',
+                url:'#',
+            },
+            {
+                year:'2023',
+                date:'05-03',
+                name:'C++从出土到下葬',
+                category:'essay',
+                url:'#',
+            },
+            {
+                year:'2022',
+                date:'05-04',
+                name:'python从入门到放弃',
+                category:'essay',
+                url:'#',
+            },
+            {
+                year:'2022',
+                date:'05-05',
+                name:'React从开始到放弃',
+                category:'essay',
+                url:'#',
+            },
+            {
+                year:'2022',
+                date:'05-06',
+                name:'HappyBirthday',
+                category:'essay',
+                url:'#',
+            },
+            {
+                year:'2022',
+                date:'05-07',
+                name:'HappyBirthday',
+                category:'essay',
+                url:'#',
             },
         ]
     };
+    UpdateCurIndex = (index) => {
+        this.setState({curIndex:index});
+    }
+
     render() {
         //每个页面10条
+        console.log(this.state.events.length);
         let eventList = []
-        console.log((this.state.curIndex)*10-1);
         for(let i = (this.state.curIndex-1)*10; i<(this.state.curIndex)*10-1 && i<this.state.events.length; i++) {
             eventList.push(this.state.events[i]);
         }
@@ -246,6 +412,7 @@ class ArchivePage extends React.Component {
                         <PageSelect
                             curIndex = {this.state.curIndex}
                             allIndex = {pageNum}
+                            selectPage = {this.UpdateCurIndex}
                         />
                     </Box>
                 </VStack>
