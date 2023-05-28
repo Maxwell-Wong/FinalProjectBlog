@@ -36,6 +36,7 @@ class EventPage extends React.Component {
                 date={event.date}
                 name={event.name}
                 category={event.category}
+                url={event.url}
             />
         ));
         return(
@@ -78,7 +79,7 @@ class Event extends React.Component {
             <Box fontSize="lg" fontWeight="bold">
               {this.props.date}
             </Box>
-            <Link mt={1} display='block' fontSize='lg' lineHeight='normal' fontWeight='semibold' href='#' >
+            <Link mt={1} display='block' fontSize='lg' lineHeight='normal' fontWeight='semibold' href={this.props.url} >
               {this.props.name}
             </Link>
             <Box>{this.props.category}</Box>
