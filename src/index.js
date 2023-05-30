@@ -8,6 +8,9 @@ import Layout from "./Components/Layout";
 import HomePage from "./Pages/Home"
 import TagsPage from "./Pages/Tags"
 import ArchivePage from "./Pages/Archive"
+import ArticlePage1 from "./Pages/Article1"
+import ArticlePage2 from "./Pages/Article2"
+
 const config = {
     initialColorMode: 'system',
     useSystemColorMode: false
@@ -23,6 +26,8 @@ function RouterMachine() {
                 <Route path="/" element={<HomePage/>}/>
                 <Route path="/analysis" element={<TagsPage/>}/>
                 <Route path="/search" element={<ArchivePage/>}/>
+                <Route path="/article1" element={<ArticlePage1/>}/>
+                <Route path="/article2" element={<ArticlePage2/>}/>
             </Routes>
         </Layout>
 
