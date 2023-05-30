@@ -1,30 +1,118 @@
-import React from "react";
+import React, {useState} from "react";
 import {
-    Box, Text, useColorModeValue, Heading, VStack, HStack, Tag, TagLabel, TagRightIcon, Button, IconButton
+    Box, useColorModeValue, Heading, VStack, HStack, Tag, TagLabel, TagRightIcon, Button, IconButton, Flex,
 
 } from "@chakra-ui/react";
 import { ChevronLeftIcon, ChevronRightIcon} from '@chakra-ui/icons'
 import { Link } from "react-router-dom";
 
+
+/**
+ * page of tags
+ * @param {*} props 
+ * @returns 
+ */
 const TagsPage = (props) => {
+    /**
+     * turn to some page
+     * @param {*} props the page number
+     */
+    const PageAt = (props) => {
+        // TODO:
+        // 1. 翻页后 pageNum 的变动
+        // 3. 首尾页禁用按钮
+        const maxPage = 10; // 取决于数据量
+        if (props >= 1 && props <= maxPage) {
+            setcurrentPage( currentPage => props );
+            alert("props.page=" + props);
+
+        } else {
+            alert("page number error");
+        }
+    }
+
+    
+    /**
+     * components of turning page buttons, 
+     * including '<','1', '2', ..., '5', '>'
+     * @param {*} props
+     * @returns
+     */
+    const PageTurningButtons = (props) => {
+        // TODO:
+        // 2. pageNum 应该由数据库中的信息计算得到
+        var pageNum = [1, 2, 3, 4, 5];
+        pageNum = pageNum.map((item) => {
+            /* 当前页是黑色的，其他页是主题颜色 */
+            return item == currentPage ? <Button colorScheme='' 
+                                                 variant='link' 
+                                                 onClick={() => PageAt(item)}>{item}</Button>
+                                       : <Button colorScheme='twitter' 
+                                                 variant='link'
+                                                 onClick={() => PageAt(item)} >{item}</Button>;
+        })
+        
+        return (
+            <Flex w="full" alignItems="center" justifyContent="center" >
+                <IconButton icon={<ChevronLeftIcon />} 
+                            colorScheme='twitter' 
+                            variant='outline' 
+                            onClick={() => PageAt(currentPage - 1)}
+                            // disabled={true}
+                            />
+                {pageNum}
+                <IconButton icon={<ChevronRightIcon />} 
+                            colorScheme='twitter' 
+                            variant='outline' 
+                            onClick={() => PageAt(currentPage + 1)}
+                            // disabled={true}
+                            />
+            </Flex>
+        );
+    }
+
+    /**
+     * components of tags
+     * @param {*} props 
+     * @returns 
+     */
+    const TagsShowing = (props) => {
+        // TODO:
+        // 1. tags 从数据库中获得
+        // 2. TagRightIcon ？
+        var tags = [['Algorithm', 'Alien', 'BFS', 'CPP', 'CNN', 'Cmake', 'CSS', 'CPU'],
+                    ['Python', 'Java', 'JavaScript', 'jsp', 'VSCode', 'MySQL', 'A', 'B']]
+
+        tags = tags.map(item => (
+            <HStack spacing='24px'>
+            {item.map(i => (
+                <Link to="/"> {/* TODO: 此处实现传参跳转，到 Archive 页面 */}
+                    <Tag variant='solid' colorScheme='twitter' cursor='pointer'>
+                        {i}
+                        <TagRightIcon as="" />
+                    </Tag>
+                </Link>            
+            ))}
+            </HStack>
+        ))
+
+        return (<VStack spacing="6" align="start">{tags}</VStack>);
+    }
+
+// ---------------- PAGE ----------------------------
     const borderColor = useColorModeValue('gray.200', 'gray.600')
     const bgColor = useColorModeValue('whiteAlpha.800', 'gray.700')
 
-    // const articles = [
+    const [currentPage, setcurrentPage] = useState(3);
+    // const [state, setState] = useState(
     //     {
-    //         title: "Exploring the Wonders of Nature",
-    //         content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vitae odio a dui ultricies tincidunt. Curabitur dignissim lectus in dui aliquam, sed rutrum mauris eleifend. Vivamus commodo, ipsum in fermentum scelerisque, velit lacus malesuada risus, at sagittis diam lectus nec nisi.",
-    //     },
-    //     {
-    //         title: "The Art of Balancing Work and Life",
-    //         content: "Fusce fermentum metus non mauris consequat, ac aliquam mauris pulvinar. Morbi sed justo eget justo feugiat congue. Vivamus elementum ligula vel turpis convallis, non vulputate tellus eleifend. Quisque quis sapien ligula. Donec commodo quam non interdum facilisis.",
-    //     },
-    // ];
+    //     currentPage:3,
+    //     pageRange:[],            
+    //     }
+    // );
 
     return (
         <Box w="100%" minH="100%" p="5">
-
-
             <Box
                 borderWidth="1px"
                 borderStyle="solid"
@@ -34,121 +122,11 @@ const TagsPage = (props) => {
                 bgColor={bgColor}
                 borderRadius="2xl"
             >
-                <Heading as="h1" mb="6">
-                    Tags
-                </Heading>
-
-
-                <VStack spacing="6" align="start">
-                    <HStack spacing='24px'>
-                        <Link to="/">
-                            <Tag variant='solid' colorScheme='twitter' cursor='pointer'>
-                                Algorithm
-                                {/* <TagLabel variant='solid' colorScheme='white'></TagLabel> */}
-                                <TagRightIcon as="" />
-                            </Tag>
-                        </Link>
-                        <Link to="/">
-                            <Tag variant='solid' colorScheme='twitter' cursor='pointer'>
-                                Alien
-                                {/* <TagLabel variant='solid' colorScheme='white'></TagLabel> */}
-                                <TagRightIcon as="" />
-                            </Tag>
-                        </Link>
-                        <Link to="/">
-                            <Tag variant='solid' colorScheme='twitter' cursor='pointer'>
-                                BFS
-                                {/* <TagLabel variant='solid' colorScheme='white'></TagLabel> */}
-                                <TagRightIcon as="" />
-                            </Tag>
-                        </Link>
-                        <Link to="/">
-                            <Tag variant='solid' colorScheme='twitter' cursor='pointer'>
-                                CPP
-                                {/* <TagLabel variant='solid' colorScheme='white'></TagLabel> */}
-                                <TagRightIcon as="" />
-                            </Tag>
-                        </Link>
-                    </HStack>
-                    <HStack spacing='24px'>
-                        <Link to="/">
-                            <Tag variant='solid' colorScheme='twitter' cursor='pointer'>
-                                CNN
-                                {/* <TagLabel variant='solid' colorScheme='white'></TagLabel> */}
-                                <TagRightIcon as="" />
-                            </Tag>
-                        </Link>
-                        <Link to="/">
-                            <Tag variant='solid' colorScheme='twitter' cursor='pointer'>
-                                Cmake
-                                {/* <TagLabel variant='solid' colorScheme='white'></TagLabel> */}
-                                <TagRightIcon as="" />
-                            </Tag>
-                        </Link>
-                        <Link to="/">
-                            <Tag variant='solid' colorScheme='twitter' cursor='pointer'>
-                                CSS
-                                {/* <TagLabel variant='solid' colorScheme='white'></TagLabel> */}
-                                <TagRightIcon as="" />
-                            </Tag>
-                        </Link>
-                        <Link to="/">
-                            <Tag variant='solid' colorScheme='twitter' cursor='pointer'>
-                                CPU
-                                {/* <TagLabel variant='solid' colorScheme='white'></TagLabel> */}
-                                <TagRightIcon as="" />
-                            </Tag>
-                        </Link>
-                    </HStack>
-                    <HStack spacing='24px'>
-                        <Link to="/">
-                            <Tag variant='solid' colorScheme='twitter' cursor='pointer'>
-                                CNN
-                                {/* <TagLabel variant='solid' colorScheme='white'></TagLabel> */}
-                                <TagRightIcon as="" />
-                            </Tag>
-                        </Link>
-                        <Link to="/">
-                            <Tag variant='solid' colorScheme='twitter' cursor='pointer'>
-                                Cmake
-                                {/* <TagLabel variant='solid' colorScheme='white'></TagLabel> */}
-                                <TagRightIcon as="" />
-                            </Tag>
-                        </Link>
-                        <Link to="/">
-                            <Tag variant='solid' colorScheme='twitter' cursor='pointer'>
-                                CSS
-                                {/* <TagLabel variant='solid' colorScheme='white'></TagLabel> */}
-                                <TagRightIcon as="" />
-                            </Tag>
-                        </Link>
-                        <Link to="/">
-                            <Tag variant='solid' colorScheme='twitter' cursor='pointer'>
-                                CPU
-                                {/* <TagLabel variant='solid' colorScheme='white'></TagLabel> */}
-                                <TagRightIcon as="" />
-                            </Tag>
-                        </Link>
-                    </HStack>
-
-                </VStack>
-
+                <Heading as="h1" mb="6">Tags</Heading>
+                <TagsShowing cp={currentPage} /> {/* the tags */}
             </Box>
-
-
-            <Box>
-                <HStack direction='row' spacing={4}>
-                    <IconButton icon={<ChevronLeftIcon />} colorScheme='twitter' variant='outline'/>
-                    <Button colorScheme='twitter' variant='link'>1</Button>
-                    <Button colorScheme='twitter' variant='link'>2</Button>
-                    <Button colorScheme='twitter' variant='link'>3</Button>
-                    <Button colorScheme='twitter' variant='link'>4</Button>
-                    <Button colorScheme='twitter' variant='link'>5</Button>
-                    <IconButton icon={<ChevronRightIcon />} colorScheme='twitter' variant='outline'/>
-                </HStack>                 
-            </Box>
-
+            <PageTurningButtons cp={currentPage} /> {/* the buttons for page turning */}
         </Box>
-    )
+    );
 }
 export default TagsPage;
