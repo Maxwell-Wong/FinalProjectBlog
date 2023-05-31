@@ -6,6 +6,7 @@ import os
 from django.conf import settings
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+import codecs
 def EventList(request):
     #eventList = models.EventTable.objects.order_by("year")
     eventList = models.EventTable.objects.all()
@@ -46,3 +47,15 @@ def upload_file(request):
         filepath = os.path.join(settings.MEDIA_ROOT, "filename")
         print(filepath)
         return HttpResponse('文件丢失')
+def download_file(request):
+    #文章
+    articleID = request.GET.get('id')
+    #获取要下载的文件的路径
+    filePath = models.Atricle.objects.get(pk=articleID).url
+    print(filePath)
+    # 打开文件并读取内容
+    with codecs.open(filePath, 'r',encoding='utf-8') as f:
+        file_content = f.read()
+    # 创建 HTTP 响应并设置 Content-Type 头部
+    response = HttpResponse(file_content, content_type='text/markdown;charset=utf-8')
+    return response
