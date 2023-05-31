@@ -90,40 +90,32 @@ const TagsPage = (props) => {
      * @param {*} props 
      * @returns 
      */
-    const TagsShowing = (props) => {
-        // TODO:
-        // 1. tags 从数据库中获得
-        // 2. TagRightIcon ？
-        var data = ['Algorithm', 'Alien', 'BFS', 'CPP', 'CNN', 'Cmake', 'CSS', 'CPU',
-                    'Python', 'Java', 'JavaScript', 'jsp', 'VSCode', 'MySQL', 'A', 'B',
-                    'Algorithm', 'Alien', 'BFS', 'CPP', 'CNN', 'Cmake', 'CSS', 'CPU',
-                    'Python', 'Java', 'JavaScript', 'jsp', 'VSCode', 'MySQL', 'A', 'B',
-                    'Algorithm', 'Alien', 'BFS', 'CPP', 'CNN', 'Cmake', 'CSS', 'CPU',
-                    'Python', 'Java', 'JavaScript', 'jsp', 'VSCode', 'MySQL', 'A', 'B',
-                    'Algorithm', 'Alien', 'BFS', 'CPP', 'CNN', 'Cmake', 'CSS', 'CPU',
-                    'Python', 'Java', 'JavaScript', 'jsp', 'VSCode', 'MySQL', 'A', 'B']
-        
+    const TagsShowing = (props) => {   
+        // get tags in current page
         let tags = []
-        let base = (currentPage - 1) * 8; // 4 * 2 tags each page
-        for (let i = 0; i < 2; i++) {
+        let base = (currentPage - 1) * rows * columns; // 4 * 2 tags each page
+        let over = false;
+        for (let i = 0; i < rows && !over; i++) {
             let temp = []
-            for (let j = 0; j < 4; j++) {
+            for (let j = 0; j < columns; j++) {
                 let idx = base + 4 * i + j; // index = base + offset
-                // TODO：这里加越界判断
-                temp.push(data[idx]);
+                if (idx < data.length) {
+                    temp.push(data[idx]);
+                } else {
+                    over = true;
+                    break;
+                }
             }
             tags.push(temp);
         }
 
+        // transform tags to corresponding Tag components
         tags = tags.map(item => (
-            <HStack spacing='24px'>
-            {item.map(i => (
-                <Link to="/"> {/* TODO: 此处实现传参跳转，跳转到 Archive 页面 */}
-                    <Tag variant='solid' colorScheme='twitter' cursor='pointer'>
-                        {i}
-                        <TagRightIcon as="" />
-                    </Tag>
-                </Link>            
+            <HStack spacing='24px'> { /* TODO: 此处实现传参跳转，跳转到 Archive 页面 */}
+            {item.map(i => ( i ? <Link to="/"><Tag variant='solid' colorScheme='twitter' cursor='pointer'>
+                                        {i} <TagRightIcon as="" /></Tag> { /* TODO: TagRightIcon ? */}
+                                 </Link>
+                               : null
             ))}
             </HStack>
         ))
@@ -135,10 +127,26 @@ const TagsPage = (props) => {
     const borderColor = useColorModeValue('gray.200', 'gray.600')
     const bgColor = useColorModeValue('whiteAlpha.800', 'gray.700')
 
-    const [currentPage, setcurrentPage] = useState(1);
-    const [pageNums, setpageNums] = useState([1, 2, 3, 4, 5]);
+    // TODO: get data from database
+    var data = ['Algorithm', 'Alien', 'BFS', 'CPP', 'CNN', 'Cmake', 'CSS', 'CPU',
+                'Python', 'Java', 'JavaScript', 'jsp', 'VSCode', 'MySQL', 'A', 'B',
+                'Algorithm', 'Alien', 'BFS', 'CPP', 'CNN', 'Cmake', 'CSS', 'CPU',
+                'Python', 'Java', 'JavaScript', 'jsp', 'VSCode', 'MySQL', 'A', 'B',
+                'Algorithm', 'Alien', 'BFS', 'CPP', 'CNN', 'Cmake', 'CSS', 'CPU',
+                'Python', 'Java', 'JavaScript', 'jsp', 'VSCode', 'MySQL', 'A', 'B',
+                'Algorithm', 'Alien', 'BFS', 'CPP', 'CNN', 'Cmake', 'CSS', 'CPU',
+                'Python', 'Java', 'JavaScript', 'jsp', 'VSCode', 'MySQL', 'A', 'B', 'C']
 
-    const maxPage = 8; // 需要从数据库所获信息计算
+    // some parameters
+    const rows = 2;     // 每页 rows 行
+    const columns = 4;  // 每页 columns 列
+    const maxPage = Math.ceil(data.length / (rows * columns)); // 最大页数
+
+    // state
+    const [currentPage, setcurrentPage] = useState(1);
+    let initPageNums = [];
+    for (let i = 1; i <= 5 && i <= maxPage; i++) initPageNums.push(i);
+    const [pageNums, setpageNums] = useState(initPageNums);
 
     return (
         <Box w="100%" minH="100%" p="5">
