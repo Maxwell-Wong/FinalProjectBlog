@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {
-    Box, useColorModeValue, Heading, VStack, HStack, Tag, TagLabel, TagRightIcon, Button, IconButton, Flex,
+    Box, useColorModeValue, Heading, VStack, HStack, Tag, TagRightIcon, Button, IconButton, Flex,
 
 } from "@chakra-ui/react";
 import { ChevronLeftIcon, ChevronRightIcon} from '@chakra-ui/icons'
@@ -18,16 +18,24 @@ const TagsPage = (props) => {
      * @param {*} props the page number
      */
     const PageAt = (props) => {
-        // TODO:
-        // 1. 翻页后 pageNum 的变动
-        // 3. 首尾页禁用按钮
-        const maxPage = 10; // 取决于数据量
         if (props >= 1 && props <= maxPage) {
+            // update current page
             setcurrentPage( currentPage => props );
-            alert("props.page=" + props);
 
-        } else {
-            alert("page number error");
+            // when new current page is out of range, update page numbers
+            if (props > pageNums[pageNums.length - 1]) {
+                let newPageNums = [];
+                for (let i = props; i < props + 5 && i <= maxPage; i++) {
+                    newPageNums.push(i);
+                }
+                setpageNums(newPageNums);
+            } else if (props < pageNums[0]) {
+                let newPageNums = [];
+                for (let i = props - 4; i <= props; i++) {
+                    newPageNums.push(i);
+                }
+                setpageNums(newPageNums);
+            }
         }
     }
 
@@ -35,14 +43,12 @@ const TagsPage = (props) => {
     /**
      * components of turning page buttons, 
      * including '<','1', '2', ..., '5', '>'
-     * @param {*} props
-     * @returns
+     * @param {*} props the array of page numbers
+     * @returns turning page buttons
      */
     const PageTurningButtons = (props) => {
-        // TODO:
-        // 2. pageNum 应该由数据库中的信息计算得到
-        var pageNum = [1, 2, 3, 4, 5];
-        pageNum = pageNum.map((item) => {
+        // 1. page number buttons
+        let pageNumButtons = props.pageNum.map((item) => {
             /* 当前页是黑色的，其他页是主题颜色 */
             return item == currentPage ? <Button colorScheme='' 
                                                  variant='link' 
@@ -50,23 +56,31 @@ const TagsPage = (props) => {
                                        : <Button colorScheme='twitter' 
                                                  variant='link'
                                                  onClick={() => PageAt(item)} >{item}</Button>;
-        })
+        });
         
+        // 2. previous page button
+        if (currentPage > 1) {
+            var prevButton = <IconButton icon={<ChevronLeftIcon />} 
+                                     colorScheme='twitter' 
+                                     variant='outline' 
+                                     onClick={() => PageAt(currentPage - 1)}
+                                     />            
+        }
+
+        // 3. next page button
+        if (currentPage < maxPage) {
+            var nextButton = <IconButton icon={<ChevronRightIcon />} 
+                                         colorScheme='twitter' 
+                                         variant='outline' 
+                                         onClick={() => PageAt(currentPage + 1)}
+                                         />
+        }
+
         return (
             <Flex w="full" alignItems="center" justifyContent="center" >
-                <IconButton icon={<ChevronLeftIcon />} 
-                            colorScheme='twitter' 
-                            variant='outline' 
-                            onClick={() => PageAt(currentPage - 1)}
-                            // disabled={true}
-                            />
-                {pageNum}
-                <IconButton icon={<ChevronRightIcon />} 
-                            colorScheme='twitter' 
-                            variant='outline' 
-                            onClick={() => PageAt(currentPage + 1)}
-                            // disabled={true}
-                            />
+                {prevButton}
+                {pageNumButtons}
+                {nextButton}
             </Flex>
         );
     }
@@ -80,13 +94,31 @@ const TagsPage = (props) => {
         // TODO:
         // 1. tags 从数据库中获得
         // 2. TagRightIcon ？
-        var tags = [['Algorithm', 'Alien', 'BFS', 'CPP', 'CNN', 'Cmake', 'CSS', 'CPU'],
-                    ['Python', 'Java', 'JavaScript', 'jsp', 'VSCode', 'MySQL', 'A', 'B']]
+        var data = ['Algorithm', 'Alien', 'BFS', 'CPP', 'CNN', 'Cmake', 'CSS', 'CPU',
+                    'Python', 'Java', 'JavaScript', 'jsp', 'VSCode', 'MySQL', 'A', 'B',
+                    'Algorithm', 'Alien', 'BFS', 'CPP', 'CNN', 'Cmake', 'CSS', 'CPU',
+                    'Python', 'Java', 'JavaScript', 'jsp', 'VSCode', 'MySQL', 'A', 'B',
+                    'Algorithm', 'Alien', 'BFS', 'CPP', 'CNN', 'Cmake', 'CSS', 'CPU',
+                    'Python', 'Java', 'JavaScript', 'jsp', 'VSCode', 'MySQL', 'A', 'B',
+                    'Algorithm', 'Alien', 'BFS', 'CPP', 'CNN', 'Cmake', 'CSS', 'CPU',
+                    'Python', 'Java', 'JavaScript', 'jsp', 'VSCode', 'MySQL', 'A', 'B']
+        
+        let tags = []
+        let base = (currentPage - 1) * 8; // 4 * 2 tags each page
+        for (let i = 0; i < 2; i++) {
+            let temp = []
+            for (let j = 0; j < 4; j++) {
+                let idx = base + 4 * i + j; // index = base + offset
+                // TODO：这里加越界判断
+                temp.push(data[idx]);
+            }
+            tags.push(temp);
+        }
 
         tags = tags.map(item => (
             <HStack spacing='24px'>
             {item.map(i => (
-                <Link to="/"> {/* TODO: 此处实现传参跳转，到 Archive 页面 */}
+                <Link to="/"> {/* TODO: 此处实现传参跳转，跳转到 Archive 页面 */}
                     <Tag variant='solid' colorScheme='twitter' cursor='pointer'>
                         {i}
                         <TagRightIcon as="" />
@@ -103,13 +135,10 @@ const TagsPage = (props) => {
     const borderColor = useColorModeValue('gray.200', 'gray.600')
     const bgColor = useColorModeValue('whiteAlpha.800', 'gray.700')
 
-    const [currentPage, setcurrentPage] = useState(3);
-    // const [state, setState] = useState(
-    //     {
-    //     currentPage:3,
-    //     pageRange:[],            
-    //     }
-    // );
+    const [currentPage, setcurrentPage] = useState(1);
+    const [pageNums, setpageNums] = useState([1, 2, 3, 4, 5]);
+
+    const maxPage = 8; // 需要从数据库所获信息计算
 
     return (
         <Box w="100%" minH="100%" p="5">
@@ -123,9 +152,9 @@ const TagsPage = (props) => {
                 borderRadius="2xl"
             >
                 <Heading as="h1" mb="6">Tags</Heading>
-                <TagsShowing cp={currentPage} /> {/* the tags */}
+                <TagsShowing /> {/* the tags */}
             </Box>
-            <PageTurningButtons cp={currentPage} /> {/* the buttons for page turning */}
+            <PageTurningButtons pageNum={pageNums}/> {/* the buttons for page turning */}
         </Box>
     );
 }
