@@ -86,7 +86,7 @@ DATABASES = {
     { 
         'ENGINE': 'django.db.backends.mysql',    # 数据库引擎
         'NAME': '20337010blog', # 数据库名称
-        'HOST': '127.0.0.1', # 数据库地址
+        'HOST': '192.168.101.65', # 数据库地址
         'PORT': 3306, # 端口 
         'USER': '20337010ROOT',  # 数据库用户名
         'PASSWORD': '123456', # 数据库密码
@@ -123,7 +123,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-
+MEDIA_ROOT = "markdownFile/"
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 

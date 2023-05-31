@@ -21,4 +21,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('EventList/', views.EventList),
     path('testdb/', testdb.testdb),
+    path('uploadFile/',views.upload_file)
 ]
