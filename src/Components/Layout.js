@@ -133,6 +133,7 @@ function DrawerExample() {
         formData.append('date', date);
         formData.append('tag', curTag);
         uploadFile("uploadFile/",'POST',formData);
+        onClose()
     }
     return (
       <>
@@ -161,7 +162,9 @@ function DrawerExample() {
               <Button variant='outline' mr={3} onClick={onClose}>
                 Cancel
               </Button>
-              <Button colorScheme='blue' onClick={transferFiles}>确认上传</Button>
+              <Link to="/">
+              <Button colorScheme='blue' onClick={transferFiles} >确认上传</Button>
+              </Link>
             </DrawerFooter>
           </DrawerContent>
         </Drawer>
