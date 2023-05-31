@@ -24,7 +24,7 @@ const TagsPage = (props) => {
         const maxPage = 10; // 取决于数据量
         if (props >= 1 && props <= maxPage) {
             setcurrentPage( currentPage => props );
-            alert("props.page=" + props);
+            // alert("props.page=" + props);
 
         } else {
             alert("page number error");
@@ -80,8 +80,20 @@ const TagsPage = (props) => {
         // TODO:
         // 1. tags 从数据库中获得
         // 2. TagRightIcon ？
-        var tags = [['Algorithm', 'Alien', 'BFS', 'CPP', 'CNN', 'Cmake', 'CSS', 'CPU'],
-                    ['Python', 'Java', 'JavaScript', 'jsp', 'VSCode', 'MySQL', 'A', 'B']]
+        var data = ['Algorithm', 'Alien', 'BFS', 'CPP', 'CNN', 'Cmake', 'CSS', 'CPU',
+                    'Python', 'Java', 'JavaScript', 'jsp', 'VSCode', 'MySQL', 'A', 'B']
+        
+        let tags = []
+        let base = (currentPage - 1) * 8; // 4 * 2 tags each page
+        for (let i = 0; i < 2; i++) {
+            let temp = []
+            for (let j = 0; j < 4; j++) {
+                let idx = base + 4*i + j;
+                // TODO：这里加越界判断
+                temp.push(data[idx]);
+            }
+            tags.push(temp);
+        }
 
         tags = tags.map(item => (
             <HStack spacing='24px'>
@@ -103,7 +115,7 @@ const TagsPage = (props) => {
     const borderColor = useColorModeValue('gray.200', 'gray.600')
     const bgColor = useColorModeValue('whiteAlpha.800', 'gray.700')
 
-    const [currentPage, setcurrentPage] = useState(3);
+    const [currentPage, setcurrentPage] = useState(1);
     // const [state, setState] = useState(
     //     {
     //     currentPage:3,
