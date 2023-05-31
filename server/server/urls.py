@@ -23,6 +23,7 @@ urlpatterns = [
     path('testdb/', testdb.testdb),
     path('uploadFile/',views.upload_file),
     path('downloadFile/',views.download_file),
-    path('ArticleList/',views.getArticleList)
+    path('ArticleList/',views.getArticleList),
+    path('removeFile/',views.removeFile)
     
 ]
