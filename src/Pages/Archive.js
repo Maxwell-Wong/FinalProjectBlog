@@ -19,15 +19,14 @@ class ArchivePage extends React.Component {
         this.getData();
     }
     async getData() {
-        var msg = await getEventList('EventList/', 'get');
-        console.log(typeof(JSON.parse(msg.data)))
+        var msg = await getEventList('ArticleList/', 'get');
+        console.log((JSON.parse(msg.data)))
         if (msg.status== 200) {
             let curEventList = [];
             const arr = JSON.parse(msg.data);
             console.log('200');
             arr.forEach(function(element,index){
-                curEventList.push(element['fields']);
-                console.log('5');
+                curEventList.push(element);
             });
             this.setState({ events:curEventList });
             console.log(curEventList);

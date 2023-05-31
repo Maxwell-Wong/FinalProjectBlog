@@ -36,11 +36,12 @@ class EventList extends React.Component {
 class EventPage extends React.Component {
     render() {
         const EventComponents = this.props.events.map((event) => (
+
             <Event
-                date={event.date}
-                name={event.name}
-                category={event.category}
-                url={event.url}
+                date={event.day}
+                name={event.title}
+                category={event.tag}
+                url={'Article?id='+event.id+'&title='+event.title}
             />
         ));
         return(
