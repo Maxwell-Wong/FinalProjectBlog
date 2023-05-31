@@ -1,2 +1,6 @@
 .DS_Store
 node_modules
+server/BLOG/__pycache__/*
+server/BLOG/migrations/*
+
+server/BLOG/markdownFile/*
