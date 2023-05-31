@@ -6,10 +6,13 @@ import React from 'react'
 import EventList from '../Components/event';
 import PageSelect from '../Components/SelectButton';
 import  {getEventList}  from '../Api/EventApi';
+import { getLikeTitleList } from '../Api/getLikeTitleList';
+import { withRouter } from '../utils/withRouter';
 import { 
     Box,VStack
 } from '@chakra-ui/react';
 class ArchivePage extends React.Component {
+    location = this.props;
     state = {
         curIndex:1,
         events:[],
@@ -23,9 +26,31 @@ class ArchivePage extends React.Component {
         this.getData();
     }
     async getData() {
-        var msg = await getEventList('ArticleList/', 'get');
+        var msg;
+        if(this.location.location.search) {
+            const params = this.location.location.search.split('?')[1].split('&').reduce((acc, val) => {
+                const [key, value] = val.split('=');
+                acc[key] = value;
+                return acc;
+            }, {});
+            console.log(params)
+            if(params.likeTitle) {
+                const likeTitle = decodeURIComponent(params.likeTitle);
+                let formData = {
+                    likeTitle:likeTitle
+                };
+                msg = await getLikeTitleList('getTitleLikeList/', 'get',formData);
+            }else{
+                // const likeTitle = decodeURIComponent(params.likeTitle);
+                // let formData = new FormData();
+                // formData.append('likeTitle',likeTitle);
+                // msg = await getLikeTitleList('ArticleList/', 'get',formData);
+            }
+        } else {
+            msg = await getEventList('ArticleList/', 'get');
+        }
         console.log((JSON.parse(msg.data)))
-        if (msg.status== 200) {
+        if (msg.status == 200) {
             let curEventList = [];
             const arr = JSON.parse(msg.data);
             console.log('200');
@@ -71,4 +96,4 @@ class ArchivePage extends React.Component {
         );
     }
 }
-export default ArchivePage;
+export default withRouter(ArchivePage);

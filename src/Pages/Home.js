@@ -13,7 +13,9 @@ import {
 
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 
+
 const HomePage = (props) => {
+    
     const borderColor = useColorModeValue('gray.200', 'gray.600')
     const bgColor = useColorModeValue('whiteAlpha.800', 'gray.700')
 
@@ -29,8 +31,9 @@ const HomePage = (props) => {
             location: "http://localhost:3000/article2"
         },
     ];
-
+    
     return (
+        
         <Box w="100%" minH="100%" p="5">
             <Box
                 borderWidth="1px"

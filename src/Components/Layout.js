@@ -11,6 +11,7 @@ import {
     FaPager,
     FaTape
 } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import {Link, useLocation} from "react-router-dom";
 import {uploadFile} from '../Api/uploadFile'
 import {
@@ -286,10 +287,25 @@ export default function BlogLayout(props) {
         "linear-gradient(0deg, #1A202C 20%, #1A202C 100%)"
     );
 
-
+    const navigate = useNavigate();
     const {isOpen, onOpen, onClose} = useDisclosure()
     const {colorMode, toggleColorMode} = useColorMode();
+    let searchContent;
+    function updateSearch(event) {
+        if (event.key === "Enter") {
+            console.log("Enter key pressed");
+            console.log(searchContent);
+            //路由跳转
+            console.log(navigate);
+            navigate("/search?likeTitle="+searchContent);
+            window.location.reload()
 
+        }
+    }
+    function handleSearchContent(event) {
+        searchContent = event.target.value;
+        console.log(searchContent);
+    }
     return(
         <Box
             bgImg='linear-gradient(60deg, #FFFFFF 0%, rgba(200, 61, 255, 0.2) 30%, #4AC1A240 80%, rgba(255, 255, 255, 0.36) 100%)'
@@ -340,6 +356,8 @@ export default function BlogLayout(props) {
                                         borderColor: "blue.500",
                                         boxShadow: "0 0 0 2px rgba(66, 153, 225, 0.6)",
                                     }}
+                                    onKeyPress={updateSearch}
+                                    onChange={handleSearchContent}
                                 />
                             </InputGroup>
                         </Flex>
