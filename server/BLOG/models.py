@@ -11,7 +11,7 @@ class Atricle(models.Model):
     #Django自动设置id为自增主键
     ##id = models.AutoField(primary_key=True) #自增id=>主键
     title = models.CharField(max_length=50) 
-    date = models.DateField(auto_now_add=True)
+    date = models.DateField(auto_now_add=False)
     url = models.CharField(max_length=50)
 class Tag(models.Model):
     article_id = models.IntegerField()
