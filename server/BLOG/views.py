@@ -7,14 +7,40 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import codecs
+import json
+from django.db.models import Count
 def EventList(request):
     #eventList = models.EventTable.objects.order_by("year")
     eventList = models.EventTable.objects.all()
-    print(eventList[0].year)
+    print(eventList)
     serialized_data = serializers.serialize('json', eventList)
     return JsonResponse(serialized_data, safe=False)
-
-@csrf_exempt
+def getArticleList(request):
+    #eventList = models.EventTable.objects.order_by("year")
+    #获取title+date
+    atricleList = models.Atricle.objects.order_by("date").values('id','title','date')
+    for article in atricleList:
+        #转为字符串时间
+        article['date'] = article['date'].strftime('%Y-%m-%d')
+        article['year'] = article['date'][0:4]
+        article['day'] = article['date'][5:10]
+    #查询tag
+    tagList = models.Tag.objects.values('article_id','tag')
+    tagDict = {}
+    for i in tagList:
+        if(i['article_id'] in tagDict):
+            tagDict[i['article_id']] += i['tag']+' '
+        else:
+            tagDict[i['article_id']] = i['tag']+' '
+    for article in atricleList:
+        if(article['id'] in tagDict):
+            article['tag'] = tagDict[article['id']]
+        else :
+            article['tag'] = ' '
+    atricleList = json.dumps(list(atricleList))
+    print(atricleList)
+    return JsonResponse(atricleList, safe=False)
+@csrf_exempt #取消csrf认证
 def upload_file(request):
     if request.method == 'POST' and request.FILES:
         # 从request.FILES中获取上传的文件对象
