@@ -12,6 +12,7 @@ import {
     FaTape
 } from "react-icons/fa";
 import {Link, useLocation} from "react-router-dom";
+import {uploadFile} from '../Api/uploadFile'
 import {
     Badge,
     Box,
@@ -26,6 +27,14 @@ import {
     useColorModeValue,
     useDisclosure,
     chakra,
+    Button,
+    Drawer,
+    DrawerOverlay,
+    DrawerContent,
+    DrawerCloseButton,
+    DrawerHeader,
+    DrawerBody,
+    DrawerFooter,
 
 } from "@chakra-ui/react";
 import {FiList} from "react-icons/fi";
@@ -85,6 +94,81 @@ function NavItem(props) {
     );
 }
 
+/**
+ * @author {小倪酱}
+ * @date 2023/5/31
+ * @description 上传表单
+ */
+function DrawerExample() {
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const btnRef = React.useRef()
+    let curfile;
+    let curTitle;
+    let date;
+    let curTag;
+    function handleFileSelect(event) {
+        curfile = event.target.files[0];
+        console.log(curfile);
+    }
+    function handleTitle(event) {
+        curTitle = event.target.value;
+        console.log(curTitle);
+    }
+    function handleTag(event) {
+        curTag = event.target.value;
+        console.log(curTag);
+    }
+    function handleDate(event) {
+        date = event.target.value;
+        console.log(date);
+    }
+    function transferFiles() {
+        console.log(curfile)
+        let formData = new FormData();
+        // 添加文件到 FormData 对象中
+        formData.append('file', curfile);
+
+        // 添加其他数据到 FormData 对象中
+        formData.append('title', curTitle);
+        formData.append('date', date);
+        formData.append('tag', curTag);
+        uploadFile("uploadFile/",'POST',formData);
+    }
+    return (
+      <>
+        <Button ref={btnRef} colorScheme='teal' onClick={onOpen}>
+          上传
+        </Button>
+        <Drawer
+          isOpen={isOpen}
+          placement='right'
+          onClose={onClose}
+          finalFocusRef={btnRef}
+        >
+          <DrawerOverlay />
+          <DrawerContent>
+            <DrawerCloseButton />
+            <DrawerHeader>上传表单</DrawerHeader>
+  
+            <DrawerBody>
+              title:<Input placeholder='article title' onChange={handleTitle}/>
+              tag:<Input placeholder='article tag,使用空格分开'  onChange={handleTag}/>
+              date:<Input placeholder='date' type='date' onChange={handleDate}/>
+              <Input type='file' accept=".md" onChange={handleFileSelect}/>
+            </DrawerBody>
+  
+            <DrawerFooter>
+              <Button variant='outline' mr={3} onClick={onClose}>
+                Cancel
+              </Button>
+              <Button colorScheme='blue' onClick={transferFiles}>确认上传</Button>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+      </>
+    )
+  }
+
 
 function SidebarContent(props) {
     // Color Settings
@@ -116,6 +200,8 @@ function SidebarContent(props) {
                     Explore our amazing features and tools to unleash the power of data science!
 
                 </Text>
+                <DrawerExample/>
+                
             </Flex>
         </Box>
     )
