@@ -14,6 +14,10 @@ class ArchivePage extends React.Component {
         curIndex:1,
         events:[],
     };
+    //重新获取数据，渲染组件
+    UpdatePage=()=>{
+        this.getData();
+    }
     //第一次挂载读取数据
     componentDidMount() {
         this.getData();
@@ -50,6 +54,7 @@ class ArchivePage extends React.Component {
                     <Box w='80%' h='90%' position='relative' top='30px'>
                         <EventList
                             events = {eventList}
+                            UpdateCompoments={this.UpdatePage}
                         />
                     </Box>
                     <Box w='80%' h='10%'  position='relative' bottom='50px'>

@@ -5,11 +5,13 @@
 import * as React from 'react'
 import {
     Box,
+    Button,
     Flex,
     Link,
     Text,
 } from '@chakra-ui/react'
 import { CalendarIcon, } from '@chakra-ui/icons'
+import { removeFile } from '../Api/removeFile';
 class EventList extends React.Component {
     render() {
         let hashTable = {};
@@ -24,6 +26,7 @@ class EventList extends React.Component {
             <EventPage
                 year = {key}
                 events={hashTable[key]}
+                UpdateCompoments={this.props.UpdateCompoments}
             />
         );
         return(
@@ -38,10 +41,12 @@ class EventPage extends React.Component {
         const EventComponents = this.props.events.map((event) => (
 
             <Event
+                id={event.id}
                 date={event.day}
                 name={event.title}
                 category={event.tag}
                 url={'Article?id='+event.id+'&title='+event.title}
+                UpdateCompoments={this.props.UpdateCompoments}
             />
         ));
         return(
@@ -60,36 +65,44 @@ class EventPage extends React.Component {
     }
 }
 class Event extends React.Component {
+    removeArticle = (event)=>{
+        let formData = new FormData();
+        formData.append('id',this.props.id)
+        var msg = removeFile('removeFile/','POST',formData);
+        console.log(msg)
+        this.props.UpdateCompoments()
+    }
     render() {
         return (
             <Flex alignItems="flex-start" mb={0}  position='relative' overflow='visible' left='50px'>
-            <Box
-                w="2px"
-                h="90px"
-                bg="black"
-                position="relative"
-                top="-20px"
-                left="12px"
-                transform="translateX(-50%)"
-                zIndex="0"
-          ></Box>
-          <Box
-            w="20px"
-            h="20px"
-            borderRadius="50%"
-            bg="black"
-            zIndex="1"
-          ></Box>
-          <Box ml={4}>
-            <Box fontSize="lg" fontWeight="bold">
-              {this.props.date}
-            </Box>
-            <Link mt={1} display='block' fontSize='lg' lineHeight='normal' fontWeight='semibold' href={this.props.url} >
-              {this.props.name}
-            </Link>
-            <Box>{this.props.category}</Box>
-          </Box>
-          </Flex>
+                <Box
+                    w="2px"
+                    h="90px"
+                    bg="black"
+                    position="relative"
+                    top="-20px"
+                    left="12px"
+                    transform="translateX(-50%)"
+                    zIndex="0"
+                ></Box>
+                <Box
+                    w="20px"
+                    h="20px"
+                    borderRadius="50%"
+                    bg="black"
+                    zIndex="1"
+                ></Box>
+                <Box ml={4}>
+                    <Box fontSize="lg" fontWeight="bold">
+                    {this.props.date}
+                    </Box>
+                    <Link mt={1} display='block' fontSize='lg' lineHeight='normal' fontWeight='semibold' href={this.props.url} >
+                    {this.props.name}
+                    </Link>
+                    <Box>{this.props.category}</Box>
+                </Box>
+                <Button left='1500px' position='absolute' onClick={this.removeArticle}>delete</Button>
+            </Flex>
             
         );
     }
