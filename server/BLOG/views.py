@@ -45,28 +45,32 @@ def upload_file(request):
     if request.method == 'POST' and request.FILES:
         # 从request.FILES中获取上传的文件对象
         file_obj = request.FILES['file']
-        # 从文件对象的name属性中获取文件名
-        filename = file_obj.name
-        # 生成文件保存的路径
-        filepath = os.path.join(settings.MEDIA_ROOT, filename)
-        # 将文件保存到本地
-        with open(filepath, 'wb') as f:
-            for chunk in file_obj.chunks():
-                f.write(chunk)
         #获取文件title
         title = request.POST.get('title')
         #获取文件tag
         tag_string = request.POST.get('tag')
         #获取文件date
         date = request.POST.get('date')
-        #保存到数据库表artilce
-        article = models.Atricle(title=title,date=date,url=filepath)
+        #保存到数据库表artilce(url先置为空)
+        article = models.Atricle(title=title,date=date,url=' ')
         article.save()
         #保存tag表
         tag_list = tag_string.split()
         for i in tag_list:
             tag=models.Tag(article_id=article.id,tag=i)
             tag.save()
+        #设置文件名为ArticleID+文件名=>防止重复
+        filename = str(article.id) + file_obj.name
+        # 生成文件保存的路径
+        filepath = os.path.join(settings.MEDIA_ROOT, filename)
+        # 将文件保存到本地
+        with open(filepath, 'wb') as f:
+            for chunk in file_obj.chunks():
+                f.write(chunk)
+        #修改刚刚置为空的url
+        newArticle = models.Atricle.objects.get(pk=article.id)
+        newArticle.url = filepath
+        newArticle.save()
         # 返回一个HTTP响应，表示文件已经上传成功
         return HttpResponse('文件已上传')
     else :
@@ -85,3 +89,24 @@ def download_file(request):
     # 创建 HTTP 响应并设置 Content-Type 头部
     response = HttpResponse(file_content, content_type='text/markdown;charset=utf-8')
     return response
+
+@csrf_exempt #取消csrf认证
+def removeFile(request):
+    try:
+        #获取id
+        articleID = request.POST.get('id')
+        print(articleID)
+        #获取删除的路径
+        filePath = models.Atricle.objects.get(pk=articleID).url
+        print(filePath)
+        #删除tag表中的项
+        count = models.Tag.objects.filter(article_id=articleID).delete()
+        print(count)
+        #删除Atricle表中的项
+        count = models.Atricle.objects.filter(pk=articleID).delete()
+        print(count)
+        #删除文件
+        os.remove(filePath)
+        return HttpResponse("delete Yes")
+    except:
+        return HttpResponse("delete No")
