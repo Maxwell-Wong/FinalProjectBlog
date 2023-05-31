@@ -22,5 +22,7 @@ urlpatterns = [
     path('EventList/', views.EventList),
     path('testdb/', testdb.testdb),
     path('uploadFile/',views.upload_file),
-    path('downloadFile/',views.download_file)
+    path('downloadFile/',views.download_file),
+    path('ArticleList/',views.getArticleList)
+    
 ]
