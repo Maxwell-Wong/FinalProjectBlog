@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import codecs
 import json
-from django.db.models import Q
+from django.db.models import Q,Count
 from django.contrib.auth import authenticate
 def EventList(request):
     #eventList = models.EventTable.objects.order_by("year")
@@ -158,3 +158,41 @@ def login(request):
             return HttpResponse('用户名或者密码错误')
     except:
         return HttpResponse('登录失败')
+    
+def getTagList(request):
+    TagList =  models.Tag.objects.values('tag').annotate(count=Count(id))
+    TagList = json.dumps(list(TagList))
+    return JsonResponse(TagList, safe=False)
+
+def getTagLikeList(request):
+    taglike = request.GET.get('taglike')
+    print(taglike)
+    returnList = models.Tag.objects.filter(Q(tag__icontains=taglike)).values('article_id')
+    IdList = []
+    for i in returnList:
+        IdList.append(i['article_id'])
+    atricleList = models.Atricle.objects.filter(pk__in = IdList).order_by("date").values('id','title','date')
+    try:
+        for article in atricleList:
+            #转为字符串时间
+            article['date'] = article['date'].strftime('%Y-%m-%d')
+            article['year'] = article['date'][0:4]
+            article['day'] = article['date'][5:10]
+        #查询tag
+        tagList = models.Tag.objects.values('article_id','tag')
+        tagDict = {}
+        for i in tagList:
+            if(i['article_id'] in tagDict):
+                tagDict[i['article_id']] += i['tag']+' '
+            else:
+                tagDict[i['article_id']] = i['tag']+' '
+        for article in atricleList:
+            if(article['id'] in tagDict):
+                article['tag'] = tagDict[article['id']]
+            else :
+                article['tag'] = ' '
+        atricleList = json.dumps(list(atricleList))
+        print(atricleList)
+        return JsonResponse(atricleList, safe=False)
+    except:
+        return HttpResponse("获取失败")

@@ -6,7 +6,8 @@ import {
 import { ChevronLeftIcon, ChevronRightIcon} from '@chakra-ui/icons'
 import { Link } from "react-router-dom";
 
-
+import { getTagList } from "../Api/getTagList";
+import { useEffect } from "react";
 /**
  * page of tags
  * @param {*} props 
@@ -112,7 +113,7 @@ const TagsPage = (props) => {
         // transform tags to corresponding Tag components
         tags = tags.map(item => (
             <HStack spacing='24px'> { /* TODO: 此处实现传参跳转，跳转到 Archive 页面 */}
-            {item.map(i => ( i ? <Link to="/"><Tag variant='solid' colorScheme='twitter' cursor='pointer'>
+            {item.map(i => ( i ? <Link to={"/search?taglike=" + i}><Tag variant='solid' colorScheme='twitter' cursor='pointer'>
                                         {i} <TagRightIcon as="" /></Tag> { /* TODO: TagRightIcon ? */}
                                  </Link>
                                : null
@@ -128,14 +129,10 @@ const TagsPage = (props) => {
     const bgColor = useColorModeValue('whiteAlpha.800', 'gray.700')
 
     // TODO: get data from database
-    var data = ['Algorithm', 'Alien', 'BFS', 'CPP', 'CNN', 'Cmake', 'CSS', 'CPU',
-                'Python', 'Java', 'JavaScript', 'jsp', 'VSCode', 'MySQL', 'A', 'B',
-                'Algorithm', 'Alien', 'BFS', 'CPP', 'CNN', 'Cmake', 'CSS', 'CPU',
-                'Python', 'Java', 'JavaScript', 'jsp', 'VSCode', 'MySQL', 'A', 'B',
-                'Algorithm', 'Alien', 'BFS', 'CPP', 'CNN', 'Cmake', 'CSS', 'CPU',
-                'Python', 'Java', 'JavaScript', 'jsp', 'VSCode', 'MySQL', 'A', 'B',
-                'Algorithm', 'Alien', 'BFS', 'CPP', 'CNN', 'Cmake', 'CSS', 'CPU',
-                'Python', 'Java', 'JavaScript', 'jsp', 'VSCode', 'MySQL', 'A', 'B', 'C']
+    const [data, setData] = React.useState([]);
+    useEffect(() => {
+        getData(); // 在组件挂载后获取标签列表
+      }, []);
 
     // some parameters
     const rows = 2;     // 每页 rows 行
@@ -147,6 +144,20 @@ const TagsPage = (props) => {
     let initPageNums = [];
     for (let i = 1; i <= 5 && i <= maxPage; i++) initPageNums.push(i);
     const [pageNums, setpageNums] = useState(initPageNums);
+
+    
+    async function getData() {
+        var msg = await getTagList('TagList/','GET')
+        let initData = [];
+        if(msg.status == 200) {
+            let curDictList = JSON.parse(msg.data)
+            for (let i = 0; i < curDictList.length; i++) 
+                initData.push(curDictList[i]['tag']);
+        }
+        setData(initData);
+        
+        return initData;
+    }
 
     return (
         <Box w="100%" minH="100%" p="5">

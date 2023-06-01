@@ -7,6 +7,7 @@ import EventList from '../Components/event';
 import PageSelect from '../Components/SelectButton';
 import  {getEventList}  from '../Api/EventApi';
 import { getLikeTitleList } from '../Api/getLikeTitleList';
+import { getTagLikeList } from '../Api/getTagLikeList';
 import { withRouter } from '../utils/withRouter';
 import { 
     Box,VStack
@@ -41,10 +42,12 @@ class ArchivePage extends React.Component {
                 };
                 msg = await getLikeTitleList('getTitleLikeList/', 'get',formData);
             }else{
-                // const likeTitle = decodeURIComponent(params.likeTitle);
-                // let formData = new FormData();
-                // formData.append('likeTitle',likeTitle);
-                // msg = await getLikeTitleList('ArticleList/', 'get',formData);
+                const taglike = decodeURIComponent(params.taglike);
+                console.log(taglike);
+                let formData = {
+                    taglike:taglike
+                };
+                msg = await getTagLikeList('TagLikeList/', 'get',formData);
             }
         } else {
             msg = await getEventList('ArticleList/', 'get');

@@ -26,5 +26,7 @@ urlpatterns = [
     path('ArticleList/',views.getArticleList),
     path('removeFile/',views.removeFile),
     path('getTitleLikeList/',views.getTitleLikeList),
-    path('Login/',views.login)
+    path('Login/',views.login),
+    path('TagList/',views.getTagList),
+    path('TagLikeList/',views.getTagLikeList),
 ]
