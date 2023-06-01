@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 import codecs
 import json
 from django.db.models import Q
+from django.contrib.auth import authenticate
 def EventList(request):
     #eventList = models.EventTable.objects.order_by("year")
     eventList = models.EventTable.objects.all()
@@ -141,3 +142,19 @@ def getTitleLikeList(request):
         return JsonResponse(atricleList, safe=False)
     except:
         return HttpResponse("获取失败")
+    
+
+@csrf_exempt #取消csrf认证
+def login(request):
+    try:
+        #获取用户名
+        username = request.POST.get('username')
+        #获取密码
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            return HttpResponse('登录成功')
+        else:
+            return HttpResponse('用户名或者密码错误')
+    except:
+        return HttpResponse('登录失败')
