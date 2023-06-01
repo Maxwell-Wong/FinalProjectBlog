@@ -29,4 +29,5 @@ urlpatterns = [
     path('Login/',views.login),
     path('TagList/',views.getTagList),
     path('TagLikeList/',views.getTagLikeList),
+    path('getBLOGMd/',views.getBLOGMd),
 ]

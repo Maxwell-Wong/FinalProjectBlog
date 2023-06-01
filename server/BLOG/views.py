@@ -196,3 +196,11 @@ def getTagLikeList(request):
         return JsonResponse(atricleList, safe=False)
     except:
         return HttpResponse("获取失败")
+def getBLOGMd(request):
+    filePath = os.path.join(settings.MEDIA_ROOT, "BLOG介绍.md")
+    # 打开文件并读取内容
+    with codecs.open(filePath, 'r',encoding='utf-8') as f:
+        file_content = f.read()
+    # 创建 HTTP 响应并设置 Content-Type 头部
+    response = HttpResponse(file_content, content_type='text/markdown;charset=utf-8')
+    return response

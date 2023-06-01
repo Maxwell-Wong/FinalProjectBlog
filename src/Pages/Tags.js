@@ -130,22 +130,19 @@ const TagsPage = (props) => {
 
     // TODO: get data from database
     const [data, setData] = React.useState([]);
-    useEffect(() => {
-        getData(); // 在组件挂载后获取标签列表
-      }, []);
-
     // some parameters
     const rows = 2;     // 每页 rows 行
     const columns = 4;  // 每页 columns 列
-    const maxPage = Math.ceil(data.length / (rows * columns)); // 最大页数
+    const [maxPage, setMaxPage] = React.useState(1);
+    
 
     // state
     const [currentPage, setcurrentPage] = useState(1);
-    let initPageNums = [];
-    for (let i = 1; i <= 5 && i <= maxPage; i++) initPageNums.push(i);
-    const [pageNums, setpageNums] = useState(initPageNums);
-
     
+    const [pageNums, setpageNums] = useState([]);
+    useEffect(() => {
+        getData(); // 在组件挂载后获取标签列表
+      }, []);
     async function getData() {
         var msg = await getTagList('TagList/','GET')
         let initData = [];
@@ -155,7 +152,10 @@ const TagsPage = (props) => {
                 initData.push(curDictList[i]['tag']);
         }
         setData(initData);
-        
+        setMaxPage(Math.ceil(initData.length / (rows * columns))); // 最大页数
+        let initPageNums = [];
+        for (let i = 1; i <= 5 && i <= maxPage; i++) initPageNums.push(i);
+        setpageNums(initPageNums);
         return initData;
     }
 

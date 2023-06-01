@@ -54,7 +54,7 @@ class EventPage extends React.Component {
             <Box>
             <Flex direction="column" w="100%" boxShadow='dark-lg' position='relative' borderRadius="2%">
                 <CalendarIcon w='30px' h='30px' position='relative' left='10px' top='25px'/>
-                <Box boxShadow='dark' bg='black' w="40px" left='50px' position='relative' borderRadius='20%'>
+                <Box boxShadow='dark' bg='blue.300' w="40px" left='50px' position='relative' borderRadius='20%'>
                     <Text color='white'>{this.props.year}</Text>
                 </Box>
                 <Box w="0px" h="20px"/>
@@ -83,7 +83,7 @@ const Event = (props) => {
             <Box
                 w="2px"
                 h="90px"
-                bg="black"
+                bg="blue.300"
                 position="relative"
                 top="-20px"
                 left="12px"
@@ -94,7 +94,7 @@ const Event = (props) => {
                 w="20px"
                 h="20px"
                 borderRadius="50%"
-                bg="black"
+                bg="blue.300"
                 zIndex="1"
             ></Box>
             <Box ml={4}>

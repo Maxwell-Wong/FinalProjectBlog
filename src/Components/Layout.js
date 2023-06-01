@@ -281,7 +281,7 @@ function SidebarContent(props) {
             {...rest}
         >
             <Center px={10} py={5}>
-                <Image src="logo192.png" alt="DS3P" borderRadius='full' border='3px solid white'/>
+                <Image src="headGif.webp" alt="WebP" borderRadius='full' border='3px solid white'/>
             </Center>
             <Flex direction="column" fontSize="sm" alignItems="center" justifyContent="center" >
                 <Text fontSize="lg" textAlign="center" fontWeight="bold" mb={4}>
