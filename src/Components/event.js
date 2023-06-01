@@ -79,7 +79,7 @@ const Event = (props) => {
         }
     }
     return (
-        <Flex alignItems="flex-start" mb={0}  position='relative' overflow='visible' left='50px'>
+        <Flex alignItems="flex-start" mb={0}  position='relative' overflow='visible' left='50px'  >
             <Box
                 w="2px"
                 h="90px"
@@ -108,7 +108,7 @@ const Event = (props) => {
                 </Link>
                 <Box>{props.category}</Box>
             </Box>
-            <Button left='1500px' position='absolute' onClick={removeArticle}>delete</Button>
+            <Button marginLeft="auto" marginRight="100px" onClick={removeArticle}>delete</Button>
         </Flex>
         
     );
