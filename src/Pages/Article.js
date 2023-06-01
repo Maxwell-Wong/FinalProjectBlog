@@ -11,7 +11,7 @@ import remarkGfm from 'remark-gfm';// 划线、表、任务列表和直接url等
 import rehypeRaw from 'rehype-raw'// 解析标签，支持html语法
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter' // 代码高亮
 //高亮的主题，还有很多别的主题，可以自行选择
-import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import { tomorrow,darcula  } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import 'github-markdown-css';
 import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
@@ -78,7 +78,7 @@ class ArticlePage extends React.Component {
                                 return !inline && match ? (
                                     <SyntaxHighlighter
                                         children={String(children).replace(/\n$/, '')}
-                                        style={tomorrow}
+                                        style={darcula }
                                         language={match[1]}
                                         PreTag="div"
                                         {...props}

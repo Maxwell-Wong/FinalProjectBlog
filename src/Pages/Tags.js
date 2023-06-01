@@ -69,7 +69,7 @@ const TagsPage = (props) => {
         }
 
         // 3. next page button
-        if (currentPage < maxPage) {
+        if (currentPage < props.maxPage) {
             var nextButton = <IconButton icon={<ChevronRightIcon />} 
                                          colorScheme='twitter' 
                                          variant='outline' 
@@ -151,10 +151,11 @@ const TagsPage = (props) => {
             for (let i = 0; i < curDictList.length; i++) 
                 initData.push(curDictList[i]['tag']);
         }
-        setData(initData);
-        setMaxPage(Math.ceil(initData.length / (rows * columns))); // 最大页数
         let initPageNums = [];
-        for (let i = 1; i <= 5 && i <= maxPage; i++) initPageNums.push(i);
+        let maxNum = Math.ceil(initData.length / (rows * columns));
+        for (let i = 1; i <= 5 && i <= maxNum; i++) initPageNums.push(i);
+        setMaxPage(maxNum); // 最大页数
+        setData(initData);
         setpageNums(initPageNums);
         return initData;
     }
@@ -173,7 +174,7 @@ const TagsPage = (props) => {
                 <Heading as="h1" mb="6">Tags</Heading>
                 <TagsShowing /> {/* the tags */}
             </Box>
-            <PageTurningButtons pageNum={pageNums}/> {/* the buttons for page turning */}
+            <PageTurningButtons pageNum={pageNums} maxPage={maxPage}/> {/* the buttons for page turning */}
         </Box>
     );
 }
