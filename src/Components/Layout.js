@@ -14,6 +14,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import {Link, useLocation} from "react-router-dom";
 import {uploadFile} from '../Api/uploadFile'
+import { login } from "../Api/login";
 import {
     Badge,
     Box,
@@ -36,13 +37,14 @@ import {
     DrawerHeader,
     DrawerBody,
     DrawerFooter,
+    Spacer,
 
 } from "@chakra-ui/react";
 import {FiList} from "react-icons/fi";
 import {motion} from "framer-motion";
 import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
-
+import { useSession } from "../utils/user";
 const RouteChange = (opt) => {
     let GithubPage = "https://github.com";
     let Email = "";
@@ -100,13 +102,21 @@ function NavItem(props) {
  * @date 2023/5/31
  * @description 上传表单
  */
-function DrawerExample() {
+function DrawerUploadFile() {
+    const session = useSession();
     const { isOpen, onOpen, onClose } = useDisclosure()
     const btnRef = React.useRef()
     let curfile;
     let curTitle;
     let date;
     let curTag;
+    function openForm() {
+        if(session.user!=null) {
+            onOpen();
+        }else {
+            alert('请先登录！')
+        }
+    }
     function handleFileSelect(event) {
         curfile = event.target.files[0];
         console.log(curfile);
@@ -138,7 +148,7 @@ function DrawerExample() {
     }
     return (
       <>
-        <Button ref={btnRef} colorScheme='teal' onClick={onOpen}>
+        <Button ref={btnRef} colorScheme='teal' onClick={openForm}>
           上传
         </Button>
         <Drawer
@@ -172,14 +182,91 @@ function DrawerExample() {
       </>
     )
   }
-
+/**
+ * @author {小倪酱}
+ * @date 2023/5/31
+ * @description 登录表单
+ */
+function DrawerLogin() {
+    const session = useSession();
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const btnRef = React.useRef()
+    let username;
+    let password;
+    function handleUsername(event) {
+        username = event.target.value;
+        console.log(username);
+    }
+    function handlePassword(event) {
+        password = event.target.value;
+        console.log(password);
+    }
+    function Login() {
+        getReturn(username,password);
+        onClose();
+    }
+    async function getReturn(username,password) {
+        let formData = new FormData();
+        formData.append('username', username);
+        formData.append('password', password);
+        var msg = await login("Login/",'POST',formData);
+        
+        if(msg.data === '登录成功') {
+            alert('登录成功');
+            session.login(username);
+        }else {
+            alert(msg.data);
+        }
+    }
+    return (
+      <>
+        <Button ref={btnRef} colorScheme='teal' onClick={onOpen}>
+          登录
+        </Button>
+        <Drawer
+          isOpen={isOpen}
+          placement='right'
+          onClose={onClose}
+          finalFocusRef={btnRef}
+        >
+          <DrawerOverlay />
+          <DrawerContent>
+            <DrawerCloseButton />
+            <DrawerHeader>登录表单</DrawerHeader>
+  
+            <DrawerBody>
+              user:<Input placeholder='用户名' onChange={handleUsername}/>
+              password:<Input placeholder='密码'  onChange={handlePassword} type='password'/>
+            </DrawerBody>
+  
+            <DrawerFooter>
+              <Button variant='outline' mr={3} onClick={onClose}>
+                Cancel
+              </Button>
+              <Link to="/">
+              <Button colorScheme='blue' onClick={Login} >登录</Button>
+              </Link>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+      </>
+    )
+  }
 
 function SidebarContent(props) {
     // Color Settings
     const bgColor = useColorModeValue("whiteAlpha.700", "blackAlpha.600");
-
+    
     const {...rest} = props
-
+    const session = useSession();
+    function Logout() {
+        if(session.user!=null) {
+            session.logout();
+            alert('退出登录成功！')
+        }else {
+            alert('你还没有登录！')
+        }
+    }
     return (
         <Box
             as="nav"
@@ -204,8 +291,11 @@ function SidebarContent(props) {
                     Explore our amazing features and tools to unleash the power of data science!
 
                 </Text>
-                <DrawerExample/>
-                
+                <DrawerLogin/>
+                <Box h='30px'/>
+                <DrawerUploadFile/>
+                <Box h='30px'/>
+                <Button  colorScheme='teal' onClick={Logout}>退出</Button>
             </Flex>
         </Box>
     )

@@ -11,6 +11,7 @@ import ArchivePage from "./Pages/Archive"
 import ArticlePage1 from "./Pages/Article1"
 import ArticlePage2 from "./Pages/Article2"
 import ArticlePage from "./Pages/Article"
+import { SessionProvider } from './utils/user';
 const config = {
     initialColorMode: 'system',
     useSystemColorMode: false
@@ -37,13 +38,13 @@ function RouterMachine() {
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <>
+    <SessionProvider>
         <ChakraProvider theme={theme}>
             <BrowserRouter>
                 <RouterMachine/>
             </BrowserRouter>
         </ChakraProvider>
-    </>
+    </SessionProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

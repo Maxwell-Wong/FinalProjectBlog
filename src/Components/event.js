@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react'
 import { CalendarIcon, } from '@chakra-ui/icons'
 import { removeFile } from '../Api/removeFile';
+import { useSession } from '../utils/user';
 class EventList extends React.Component {
     render() {
         let hashTable = {};
@@ -64,47 +65,50 @@ class EventPage extends React.Component {
         );
     }
 }
-class Event extends React.Component {
-    removeArticle = (event)=>{
-        let formData = new FormData();
-        formData.append('id',this.props.id)
-        var msg = removeFile('removeFile/','POST',formData);
-        console.log(msg)
-        this.props.UpdateCompoments()
+const Event = (props) => {
+    const session = useSession();
+    function removeArticle(){
+        if(session.user != null) {
+            let formData = new FormData();
+            formData.append('id',props.id)
+            var msg = removeFile('removeFile/','POST',formData);
+            console.log(msg)
+            props.UpdateCompoments()
+        }else {
+            alert('请先进行用户登录！')
+        }
     }
-    render() {
-        return (
-            <Flex alignItems="flex-start" mb={0}  position='relative' overflow='visible' left='50px'>
-                <Box
-                    w="2px"
-                    h="90px"
-                    bg="black"
-                    position="relative"
-                    top="-20px"
-                    left="12px"
-                    transform="translateX(-50%)"
-                    zIndex="0"
-                ></Box>
-                <Box
-                    w="20px"
-                    h="20px"
-                    borderRadius="50%"
-                    bg="black"
-                    zIndex="1"
-                ></Box>
-                <Box ml={4}>
-                    <Box fontSize="lg" fontWeight="bold">
-                    {this.props.date}
-                    </Box>
-                    <Link mt={1} display='block' fontSize='lg' lineHeight='normal' fontWeight='semibold' href={this.props.url} >
-                    {this.props.name}
-                    </Link>
-                    <Box>{this.props.category}</Box>
+    return (
+        <Flex alignItems="flex-start" mb={0}  position='relative' overflow='visible' left='50px'>
+            <Box
+                w="2px"
+                h="90px"
+                bg="black"
+                position="relative"
+                top="-20px"
+                left="12px"
+                transform="translateX(-50%)"
+                zIndex="0"
+            ></Box>
+            <Box
+                w="20px"
+                h="20px"
+                borderRadius="50%"
+                bg="black"
+                zIndex="1"
+            ></Box>
+            <Box ml={4}>
+                <Box fontSize="lg" fontWeight="bold">
+                {props.date}
                 </Box>
-                <Button left='1500px' position='absolute' onClick={this.removeArticle}>delete</Button>
-            </Flex>
-            
-        );
-    }
+                <Link mt={1} display='block' fontSize='lg' lineHeight='normal' fontWeight='semibold' href={props.url} >
+                {props.name}
+                </Link>
+                <Box>{props.category}</Box>
+            </Box>
+            <Button left='1500px' position='absolute' onClick={removeArticle}>delete</Button>
+        </Flex>
+        
+    );
 }
 export default EventList;

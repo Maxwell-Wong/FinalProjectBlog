@@ -33,7 +33,6 @@ const HomePage = (props) => {
     ];
     
     return (
-        
         <Box w="100%" minH="100%" p="5">
             <Box
                 borderWidth="1px"
