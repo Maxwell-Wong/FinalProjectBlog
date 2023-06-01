@@ -25,6 +25,6 @@ urlpatterns = [
     path('downloadFile/',views.download_file),
     path('ArticleList/',views.getArticleList),
     path('removeFile/',views.removeFile),
-    path('getTitleLikeList/',views.getTitleLikeList)
-    
+    path('getTitleLikeList/',views.getTitleLikeList),
+    path('Login/',views.login)
 ]
