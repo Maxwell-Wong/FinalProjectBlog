@@ -3,7 +3,7 @@ import axios from 'axios'
  
 var request = axios.create({
     // 后台接口的基准地址
-    baseURL:"http://localhost:8000/",
+    baseURL:"http://139.9.207.119:8000/",
     timeout:5000
 })
  
