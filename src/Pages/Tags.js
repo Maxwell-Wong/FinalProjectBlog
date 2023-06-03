@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {
-    Box, useColorModeValue, Heading, VStack, HStack, Tag, TagRightIcon, Button, IconButton, Flex,
+    Box, useColorModeValue, Heading, VStack, HStack, Tag, Button, IconButton, Flex,TagLabel
 
 } from "@chakra-ui/react";
 import { ChevronLeftIcon, ChevronRightIcon} from '@chakra-ui/icons'
@@ -93,7 +93,7 @@ const TagsPage = (props) => {
      */
     const TagsShowing = (props) => {   
         // get tags in current page
-        let tags = []
+        let tags = [];
         let base = (currentPage - 1) * rows * columns; // 4 * 2 tags each page
         let over = false;
         for (let i = 0; i < rows && !over; i++) {
@@ -113,8 +113,17 @@ const TagsPage = (props) => {
         // transform tags to corresponding Tag components
         tags = tags.map(item => (
             <HStack spacing='24px'> { /* TODO: 此处实现传参跳转，跳转到 Archive 页面 */}
-            {item.map(i => ( i ? <Link to={"/search?taglike=" + i}><Tag variant='solid' colorScheme='twitter' cursor='pointer'>
-                                        {i} <TagRightIcon as="" /></Tag> { /* TODO: TagRightIcon ? */}
+            {item.map(i => ( i['tag'] ? <Link to={"/search?taglike=" + i['tag']}>
+                                            <Tag variant='solid' colorScheme='twitter' cursor='pointer' 
+                                                borderTopLeftRadius='20%' borderBottomLeftRadius='20%'
+                                                borderTopRightRadius='0%' borderBottomRightRadius='0%'>
+                                                <TagLabel >{i['tag']}</TagLabel>
+                                            </Tag>
+                                            <Tag variant='solid' colorScheme='gray' cursor='pointer' 
+                                                borderTopRightRadius='20%' borderBottomRightRadius='20%'
+                                                borderTopLeftRadius='0%' borderBottomLeftRadius='0%'>
+                                                <TagLabel >{i['count']}</TagLabel>
+                                            </Tag>
                                  </Link>
                                : null
             ))}
@@ -148,10 +157,12 @@ const TagsPage = (props) => {
         let initData = [];
         if(msg.status == 200) {
             let curDictList = JSON.parse(msg.data)
-            for (let i = 0; i < curDictList.length; i++) 
-                initData.push(curDictList[i]['tag']);
+            for (let i = 0; i < curDictList.length; i++) {
+                initData.push(curDictList[i]);
+            }
         }
         let initPageNums = [];
+        
         let maxNum = Math.ceil(initData.length / (rows * columns));
         for (let i = 1; i <= 5 && i <= maxNum; i++) initPageNums.push(i);
         setMaxPage(maxNum); // 最大页数
@@ -164,7 +175,7 @@ const TagsPage = (props) => {
         <Box w="100%" minH="100%" p="5">
             <Box
                 borderWidth="1px"
-                borderStyle="solid"
+                borderStyle="solid"  
                 borderColor={borderColor}
                 p="5"
                 minH="100%"

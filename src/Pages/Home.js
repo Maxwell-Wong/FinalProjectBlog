@@ -96,13 +96,13 @@ class HomePage extends React.Component {
                     borderColor={'gray.200'}
                     p="5"
                     minH="100%"
-                    bgColor={'whiteAlpha.800'}
+                    bgColor={'whiteAlpha.700'}
                     borderRadius="2xl"
                 >
                     <Heading as="h1" mb="6">
                         {this.state.title}
                     </Heading>   
-                    <Box borderWidth="1px" p="4" borderRadius="lg">
+                    <Box borderWidth="1px" p="4" borderRadius="lg" bg='white'>
                     <ReactMarkdown
                         className='markdown-body'
                         children={this.state.markdown}

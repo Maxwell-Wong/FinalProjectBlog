@@ -13,6 +13,8 @@ import {
     Box,VStack
 } from '@chakra-ui/react';
 class ArchivePage extends React.Component {
+    
+    
     location = this.props;
     state = {
         curIndex:1,

@@ -66,8 +66,9 @@ class ArticlePage extends React.Component {
                     <Heading as="h1" mb="6">
                         {this.state.title}
                     </Heading>   
-                    <Box borderWidth="1px" p="4" borderRadius="lg">
+                    <Box borderWidth="1px" p="4" borderRadius="lg" bg='white'>
                     <ReactMarkdown
+                        borderRadius='10%'
                         className='markdown-body'
                         children={this.state.markdown}
                         remarkPlugins={[remarkGfm, { singleTilde: false },remarkMath]}
